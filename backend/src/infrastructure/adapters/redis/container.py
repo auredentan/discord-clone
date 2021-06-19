@@ -1,6 +1,8 @@
 import logging
 
+from typing import List
 from typing import AsyncIterator
+from typing import Any
 
 from aioredis import create_redis_pool, Redis
 
@@ -11,6 +13,7 @@ from src.infrastructure.adapters.redis.service import RedisService
 
 
 async def init_redis_pool(host: str, port: int) -> AsyncIterator[Redis]:
+    logging.info(f"INIT ...........................")
     pool = await create_redis_pool(f"redis://{host}:{port}")
     yield pool
     pool.close()
@@ -24,7 +27,7 @@ class RedisContainer(containers.DeclarativeContainer):
     redis_pool = providers.Resource(
         init_redis_pool,
         host=config.redis_host,
-        password=config.redis_port,
+        port=config.redis_port,
     )
 
     service = providers.Factory(
@@ -33,9 +36,11 @@ class RedisContainer(containers.DeclarativeContainer):
     )
 
 
-def setup_redis():
+def setup_redis(endpoints: List[Any]):
     container = RedisContainer()
 
     config: RedisConfiguration = RedisConfiguration()
     logging.debug(f"Using redis on {config.redis_host}:{config.redis_port}")
     container.config.from_pydantic(config)
+
+    container.wire(modules=endpoints)

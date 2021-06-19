@@ -2,6 +2,9 @@ import logging
 
 from typing import Optional
 from typing import AsyncIterator
+from typing import List
+from typing import Any
+
 
 from sqlalchemy.engine import Engine
 from sqlalchemy.ext.asyncio import create_async_engine
@@ -74,9 +77,11 @@ class DBContainer(containers.DeclarativeContainer):
     )
 
 
-def setup_db():
+def setup_db(endpoints: List[Any]):
     container = DBContainer()
 
     config: DBConfiguration = DBConfiguration()
     logging.debug(f"Using db on {config.database_host}/{config.database_name}")
     container.config.from_pydantic(config)
+
+    container.wire(modules=endpoints)

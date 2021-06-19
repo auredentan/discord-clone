@@ -22,3 +22,7 @@ class DBConfiguration(EnvBaseSettings):
 class RedisConfiguration(EnvBaseSettings):
     redis_host: str
     redis_port: int
+
+
+class BroadcastConfiguration(EnvBaseSettings):
+    redis_config: RedisConfiguration = Field(default_factory=RedisConfiguration)
