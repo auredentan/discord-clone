@@ -1,19 +1,16 @@
-from sqlalchemy import Column, String, Boolean, Integer
+from sqlalchemy import Column
+from sqlalchemy import String
+from sqlalchemy import Boolean
 
-from src.infrastructure.adapters.database.tables import SqlAlchemyBase
+from src.infrastructure.adapters.database.tables.base import Auditable
+from src.infrastructure.adapters.database.tables.utils import GUID
 
 
-class User(SqlAlchemyBase):
+class User(Auditable):
 
-    __tablename__ = 'users'
+    __tablename__ = "user"
 
-    id = Column(Integer, primary_key=True)
+    id = Column(GUID, primary_key=True)
     email = Column(String, unique=True)
     hashed_password = Column(String)
     is_active = Column(Boolean, default=True)
-
-    def __repr__(self):
-        return f'<User(id="{self.id}", ' \
-               f'email="{self.email}", ' \
-               f'hashed_password="{self.hashed_password}", ' \
-               f'is_active="{self.is_active}")>'

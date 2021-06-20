@@ -1,8 +1,11 @@
-from fastapi import APIRouter, Depends, WebSocket
+from fastapi import APIRouter
+from fastapi import Depends
+from fastapi import WebSocket
 
 from starlette.concurrency import run_until_first_complete
 
-from dependency_injector.wiring import inject, Provide
+from dependency_injector.wiring import inject
+from dependency_injector.wiring import Provide
 
 from src.infrastructure.adapters.broadcast.container import BroadcastContainer
 from src.infrastructure.adapters.broadcast.service import BroadcastService

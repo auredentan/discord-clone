@@ -4,16 +4,17 @@ from typing import List
 from typing import AsyncIterator
 from typing import Any
 
-from aioredis import create_redis_pool, Redis
+from aioredis import create_redis_pool
+from aioredis import Redis
 
-from dependency_injector import containers, providers
+from dependency_injector import containers
+from dependency_injector import providers
 
 from src.infrastructure.configuration import RedisConfiguration
 from src.infrastructure.adapters.redis.service import RedisService
 
 
 async def init_redis_pool(host: str, port: int) -> AsyncIterator[Redis]:
-    logging.info(f"INIT ...........................")
     pool = await create_redis_pool(f"redis://{host}:{port}")
     yield pool
     pool.close()

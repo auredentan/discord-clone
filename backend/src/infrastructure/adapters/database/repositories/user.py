@@ -1,13 +1,10 @@
-from contextlib import AbstractContextManager
-from typing import Callable, Iterator
+from typing import Iterator
 
-from sqlalchemy.orm import Session
 
 from src.infrastructure.adapters.database.tables.user import User
 
 
 class UserRepository:
-
     def __init__(self, session_factory) -> None:
         self.session_factory = session_factory
 
@@ -44,9 +41,9 @@ class NotFoundError(Exception):
     entity_name: str
 
     def __init__(self, entity_id):
-        super().__init__(f'{self.entity_name} not found, id: {entity_id}')
+        super().__init__(f"{self.entity_name} not found, id: {entity_id}")
 
 
 class UserNotFoundError(NotFoundError):
 
-    entity_name: str = 'User'
+    entity_name: str = "User"

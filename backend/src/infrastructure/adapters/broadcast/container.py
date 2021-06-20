@@ -4,7 +4,8 @@ from typing import Any
 
 from broadcaster import Broadcast
 
-from dependency_injector import containers, providers
+from dependency_injector import containers
+from dependency_injector import providers
 
 from src.infrastructure.configuration import BroadcastConfiguration
 from src.infrastructure.adapters.broadcast.service import BroadcastService

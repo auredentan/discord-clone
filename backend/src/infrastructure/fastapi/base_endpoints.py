@@ -1,8 +1,8 @@
-import logging
+from fastapi import APIRouter
+from fastapi import Depends
 
-from fastapi import APIRouter, Depends
-
-from dependency_injector.wiring import inject, Provide
+from dependency_injector.wiring import inject
+from dependency_injector.wiring import Provide
 
 from src.infrastructure.adapters.redis.container import RedisContainer
 from src.infrastructure.adapters.redis.service import RedisService
