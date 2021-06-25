@@ -5,18 +5,16 @@ import {
 	Flex,
 	IconButton,
 	Icon,
-	Tooltip,
 	Menu,
 	MenuButton,
 	MenuList,
 	MenuItem,
 } from '@chakra-ui/react'
-import IconButtonWithTooltip from 'components/IconButtonWithTooltip'
+import { IconButtonWithTooltip } from 'components/IconButtonWithTooltip'
 
 import { GrEmoji } from 'react-icons/gr'
 import { MdMoreVert } from 'react-icons/md'
 import { BiCheck, BiLink, BiShare } from 'react-icons/bi'
-
 
 const ChatMessageActionBar = () => {
 	const [displayEmojiPicker, setDisplayEmojiPicker] = useState(false)
@@ -43,7 +41,6 @@ const ChatMessageActionBar = () => {
 						}}
 						icon={<Icon as={BiShare} boxSize="1.5em" />}
 					/>
-				
 
 					<Menu>
 						<MenuButton

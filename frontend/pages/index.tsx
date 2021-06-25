@@ -1,9 +1,9 @@
-import Chat from '../components/Chat'
+import Layout from 'components/Layout'
 
 export default function Index() {
 	return (
 		<main>
-			<Chat />
+			<Layout />
 		</main>
 	)
 }

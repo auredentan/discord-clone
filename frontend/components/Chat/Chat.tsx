@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Stack } from '@chakra-ui/react'
 
-import { ChatMessageCard } from './ChatMessageCard'
+import { ChatMessageCard } from '../ChatMessageCard'
 
 const Chat = () => {
 	const messages = [
