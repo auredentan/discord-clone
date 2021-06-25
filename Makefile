@@ -13,3 +13,4 @@ help:  ## Print this help.
 
 
 include backend/local/local.mk
+include frontend/local/local.mk

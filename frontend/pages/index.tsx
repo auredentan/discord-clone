@@ -1,3 +1,9 @@
+import Chat from '../components/Chat'
+
 export default function Index() {
-	return <main>rien</main>
+	return (
+		<main>
+			<Chat />
+		</main>
+	)
 }
