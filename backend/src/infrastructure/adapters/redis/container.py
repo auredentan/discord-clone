@@ -37,7 +37,7 @@ class RedisContainer(containers.DeclarativeContainer):
     )
 
 
-def setup_redis(endpoints: List[Any]):
+def setup_redis(endpoints: List[Any]) -> RedisContainer:
     container = RedisContainer()
 
     config: RedisConfiguration = RedisConfiguration()
@@ -45,3 +45,4 @@ def setup_redis(endpoints: List[Any]):
     container.config.from_pydantic(config)
 
     container.wire(modules=endpoints)
+    return container

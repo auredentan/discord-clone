@@ -18,9 +18,9 @@ def setup_containers(app: FastAPI) -> None:
     # pylint: disable=no-value-for-parameter,unnecessary-lambda
     endpoints = [base_endpoints, channel_endpoints]
 
-    setup_db(endpoints)
-    setup_redis(endpoints)
-    setup_broadcast(endpoints)
+    app.db_container = setup_db(endpoints)
+    app.redis_container = setup_redis(endpoints)
+    app.broadcast_container = setup_broadcast(endpoints)
 
 
 def construct_api_app() -> FastAPI:

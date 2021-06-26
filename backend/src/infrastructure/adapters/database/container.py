@@ -77,7 +77,7 @@ class DBContainer(containers.DeclarativeContainer):
     )
 
 
-def setup_db(endpoints: List[Any]):
+def setup_db(endpoints: List[Any]) -> DBContainer:
     container = DBContainer()
 
     config: DBConfiguration = DBConfiguration()
@@ -85,3 +85,4 @@ def setup_db(endpoints: List[Any]):
     container.config.from_pydantic(config)
 
     container.wire(modules=endpoints)
+    return container

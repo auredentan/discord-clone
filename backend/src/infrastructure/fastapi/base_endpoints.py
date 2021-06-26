@@ -10,9 +10,9 @@ from src.infrastructure.adapters.redis.service import RedisService
 router = APIRouter()
 
 
-@router.get("/ping")
-def ping() -> str:
-    return "pong"
+@router.get("/healthz")
+def healthz() -> str:
+    return "healthy"
 
 
 @router.get("/redis")

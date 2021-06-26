@@ -34,10 +34,11 @@ class BroadcastContainer(containers.DeclarativeContainer):
     )
 
 
-def setup_broadcast(endpoints: List[Any]):
+def setup_broadcast(endpoints: List[Any]) -> BroadcastContainer:
     container = BroadcastContainer()
 
     config: BroadcastConfiguration = BroadcastConfiguration()
     container.config.from_pydantic(config)
 
     container.wire(modules=endpoints)
+    return container
