@@ -14,7 +14,7 @@ backend-init: clean  ## Init
 .PHONY: backend-start
 backend-start: backend-start-db backend-start-redis ## Start the dev server
 	@cd ${BACKEND_DIR}; \
-	poetry run gunicorn src.entrypoints.api:app -w 2 -k uvicorn.workers.UvicornWorker --reload
+	poetry run gunicorn src.entrypoints.api:app -w 2 -k uvicorn.workers.UvicornWorker --reload --bind=localhost:8001
 
 .PHONY: backend-test
 backend-test:  ## Run tests

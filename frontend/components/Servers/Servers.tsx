@@ -6,8 +6,14 @@ const Servers = () => {
 	const servers = [{}, {}]
 	return (
 		<VStack spacing={4} align="stretch">
-			{servers.map((server) => {
-				return <Avatar name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />
+			{servers.map((server, idx) => {
+				return (
+					<Avatar
+						key={idx}
+						name="Dan Abrahmov"
+						src="https://bit.ly/dan-abramov"
+					/>
+				)
 			})}
 		</VStack>
 	)

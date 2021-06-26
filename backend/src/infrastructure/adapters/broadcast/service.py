@@ -1,6 +1,6 @@
-from broadcaster import Broadcast
+from src.infrastructure.adapters.broadcast.broadcast import Broadcast
 
 
 class BroadcastService:
     def __init__(self, broadcast: Broadcast) -> None:
-        self._broadcast = broadcast
+        self.broadcast = broadcast

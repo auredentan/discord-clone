@@ -10,7 +10,7 @@ const colors = {
 		700: '#2a69ac',
 	},
 }
-const theme = extendTheme({ colors, })
+const theme = extendTheme({ colors })
 
 export const AppWithContext = ({ children }) => {
 	return <ChakraProvider theme={theme}>{children}</ChakraProvider>

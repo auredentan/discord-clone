@@ -2,17 +2,17 @@ from typing import AsyncIterator
 from typing import List
 from typing import Any
 
-from broadcaster import Broadcast
 
 from dependency_injector import containers
 from dependency_injector import providers
 
 from src.infrastructure.configuration import BroadcastConfiguration
+from src.infrastructure.adapters.broadcast.broadcast import Broadcast
 from src.infrastructure.adapters.broadcast.service import BroadcastService
 
 
 async def init_broadcast(redis_host: str, redis_port: int) -> AsyncIterator[Broadcast]:
-    broadcast = Broadcast(f"redis://{redis_host}:{redis_port}")
+    broadcast = Broadcast(redis_host=redis_host, redis_port=redis_port)
     await broadcast.connect()
     yield broadcast
     await broadcast.disconnect()
@@ -25,7 +25,7 @@ class BroadcastContainer(containers.DeclarativeContainer):
     broadcast = providers.Resource(
         init_broadcast,
         redis_host=config.redis_config.redis_host,
-        password=config.redis_config.redis_port,
+        redis_port=config.redis_config.redis_port,
     )
 
     service = providers.Factory(
