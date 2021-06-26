@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 
 import { uniqBy } from 'lodash'
 
-import { Channel, ChannelCategory, ChannelType } from 'types/channel'
 import {
 	Accordion,
 	AccordionButton,
@@ -10,8 +9,9 @@ import {
 	AccordionItem,
 	AccordionPanel,
 	Box,
-	Stack,
 } from '@chakra-ui/react'
+
+import { Channel, ChannelCategory, ChannelType } from 'types/channel'
 
 const Channels = () => {
 	const channels: Channel[] = [

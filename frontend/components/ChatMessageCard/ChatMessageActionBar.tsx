@@ -10,13 +10,14 @@ import {
 	MenuList,
 	MenuItem,
 } from '@chakra-ui/react'
-import { IconButtonWithTooltip } from 'components/IconButtonWithTooltip'
 
 import { GrEmoji } from 'react-icons/gr'
 import { MdMoreVert } from 'react-icons/md'
 import { BiCheck, BiLink, BiShare } from 'react-icons/bi'
 
-const ChatMessageActionBar = () => {
+import { IconButtonWithTooltip } from '../IconButtonWithTooltip'
+
+export const ChatMessageActionBar = () => {
 	const [displayEmojiPicker, setDisplayEmojiPicker] = useState(false)
 	return (
 		<Box top={0} right={0} position="absolute">
@@ -76,4 +77,3 @@ const ChatMessageActionBar = () => {
 	)
 }
 
-export default ChatMessageActionBar

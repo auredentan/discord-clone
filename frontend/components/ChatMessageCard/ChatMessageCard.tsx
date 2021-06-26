@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 
-import { Avatar, Box, Image, Stack, Text } from '@chakra-ui/react'
+import { Avatar, Stack, Text } from '@chakra-ui/react'
 
 import { ChatMessage, User } from 'types/chat'
-import ChatMessageContent from './ChatMessageContent'
-import ChatMessageActionBar from './ChatMessageActionBar'
+import { ChatMessageContent } from './ChatMessageContent'
+import { ChatMessageActionBar } from './ChatMessageActionBar'
 
 export interface ChatMessageCardProps {
 	user: User

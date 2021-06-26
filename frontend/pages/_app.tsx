@@ -10,7 +10,11 @@ const colors = {
 		700: '#2a69ac',
 	},
 }
-const theme = extendTheme({ colors })
+const theme = extendTheme({ colors, })
+
+export const AppWithContext = ({ children }) => {
+	return <ChakraProvider theme={theme}>{children}</ChakraProvider>
+}
 
 const MyApp = ({ Component, pageProps }: any) => {
 	return (
@@ -19,9 +23,9 @@ const MyApp = ({ Component, pageProps }: any) => {
 				<title>Todo App</title>
 				<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 			</Head>
-			<ChakraProvider theme={theme}>
+			<AppWithContext>
 				<Component {...pageProps} />
-			</ChakraProvider>
+			</AppWithContext>
 		</>
 	)
 }

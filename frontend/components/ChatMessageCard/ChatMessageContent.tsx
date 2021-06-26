@@ -1,4 +1,5 @@
-import { CheckIcon, CloseIcon, EditIcon } from '@chakra-ui/icons'
+import { useState } from 'react'
+
 import {
 	ButtonGroup,
 	Editable,
@@ -8,14 +9,16 @@ import {
 	IconButton,
 	useEditableControls,
 } from '@chakra-ui/react'
-import { useState } from 'react'
+
+import { CheckIcon, CloseIcon, EditIcon } from '@chakra-ui/icons'
+
 import { ChatMessage } from 'types/chat'
 
-interface ChatMessageContentProps {
+export interface ChatMessageContentProps {
 	message: ChatMessage
 	onSubmit?: (text: string) => void
 }
-const ChatMessageContent = ({
+export const ChatMessageContent = ({
 	message,
 	onSubmit: _onSubmit,
 }: ChatMessageContentProps) => {
@@ -47,7 +50,7 @@ const ChatMessageContent = ({
 		setText(message.message)
 	}
 
-    /**
+	/**
 	 * onSubmit
 	 */
 	const onSubmit = () => {
@@ -56,7 +59,7 @@ const ChatMessageContent = ({
 		}
 	}
 
-    /**
+	/**
 	 * handleOnChange
 	 */
 	const handleOnChange = (val: string) => {
@@ -78,5 +81,3 @@ const ChatMessageContent = ({
 		</Editable>
 	)
 }
-
-export default ChatMessageContent
