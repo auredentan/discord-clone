@@ -13,7 +13,7 @@ export interface ChatProps {
 export const Chat = ({ messages, user }: ChatProps) => {
 	const channelId = 'test'
 	const [socketUrl, setSocketUrl] = useState(
-		`ws://localhost:8000/channel/${channelId}/chat`
+		`ws://localhost:8000/channels/${channelId}/chat`
 	)
 	const messageHistory = useRef([])
 

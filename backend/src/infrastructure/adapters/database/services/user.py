@@ -1,24 +1,37 @@
+import logging
+
 from uuid import uuid4
 from typing import Iterator
+from typing import Optional
 
-from src.infrastructure.adapters.database.repositories.user import UserRepository
+from src.infrastructure.adapters.database.repositories.user import (
+    UserNotFoundError,
+    UserRepository,
+)
 from src.infrastructure.adapters.database.tables.user import User
 
 
 class UserService:
-
     def __init__(self, user_repository: UserRepository) -> None:
         self._repository: UserRepository = user_repository
 
-    def get_users(self) -> Iterator[User]:
-        return self._repository.get_all()
+    async def get_users(self) -> Iterator[User]:
+        return await self._repository.get_all()
 
-    def get_user_by_id(self, user_id: int) -> User:
-        return self._repository.get_by_id(user_id)
+    async def get_user_by_id(self, user_id: int) -> Optional[User]:
+        try:
+            return await self._repository.get_by_id(user_id)
+        except UserNotFoundError:
+            logging.warning(f"User {user_id} not found")
+            return None
 
-    def create_user(self) -> User:
+    async def create_user(self) -> User:
         uid = uuid4()
-        return self._repository.add(email=f'{uid}@email.com', password='pwd')
+        return await self._repository.add(email=f"{uid}@emaikl.dlcom", password="pdkwld")
 
-    def delete_user_by_id(self, user_id: int) -> None:
-        return self._repository.delete_by_id(user_id)
+    async def delete_user_by_id(self, user_id: int) -> None:
+        try:
+            return await self._repository.delete_by_id(user_id)
+        except UserNotFoundError:
+            logging.warning(f"User {user_id} not found")
+            raise

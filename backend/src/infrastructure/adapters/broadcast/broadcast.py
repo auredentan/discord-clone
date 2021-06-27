@@ -1,5 +1,7 @@
 from contextlib import asynccontextmanager
-from typing import AsyncIterator, Any
+
+from typing import Any
+from typing import AsyncIterator
 
 import aioredis
 

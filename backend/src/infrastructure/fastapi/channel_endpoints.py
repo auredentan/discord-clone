@@ -15,7 +15,7 @@ from src.infrastructure.adapters.broadcast.service import BroadcastService
 router = APIRouter()
 
 
-@router.websocket("/channel/{channel_id}/chat")
+@router.websocket("/channels/{channel_id}/chat")
 async def chatroom_ws(websocket: WebSocket, channel_id: str):
     logging.debug(f"chatroom_ws: {channel_id}")
     await websocket.accept()

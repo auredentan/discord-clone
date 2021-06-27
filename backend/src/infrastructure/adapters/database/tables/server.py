@@ -3,17 +3,17 @@ from sqlalchemy import relationship
 from sqlalchemy import Text
 from sqlalchemy import backref
 
+from sqlalchemy_utils import UUIDType
 
 from src.infrastructure.adapters.database.tables.base import Auditable
 from src.infrastructure.adapters.database.tables.user import User
-from src.infrastructure.adapters.database.tables.utils import GUID
 
 
 class ServerRole(Auditable):
 
     __tablename__ = "serverRole"
 
-    id = Column(GUID, primary_key=True)
+    id = Column(UUIDType(binary=False), primary_key=True)
     name = Column(Text, unique=True)
 
 
@@ -21,7 +21,7 @@ class ServerMember(Auditable):
 
     __tablename__ = "serverMember"
 
-    id = Column(GUID, primary_key=True)
+    id = Column(UUIDType(binary=False), primary_key=True)
 
     # One to many
     # One user can have multiple role
@@ -38,7 +38,7 @@ class Server(Auditable):
 
     __tablename__ = "server"
 
-    id = Column(GUID, primary_key=True)
+    id = Column(UUIDType(binary=False), primary_key=True)
     name = Column(Text, unique=True)
 
     # One to many

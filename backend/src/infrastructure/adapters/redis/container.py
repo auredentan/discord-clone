@@ -37,12 +37,12 @@ class RedisContainer(containers.DeclarativeContainer):
     )
 
 
-def setup_redis(endpoints: List[Any]) -> RedisContainer:
+def setup_redis(injectable_modules: List[Any]) -> RedisContainer:
     container = RedisContainer()
 
     config: RedisConfiguration = RedisConfiguration()
     logging.debug(f"Using redis on {config.redis_host}:{config.redis_port}")
     container.config.from_pydantic(config)
 
-    container.wire(modules=endpoints)
+    container.wire(modules=injectable_modules)
     return container

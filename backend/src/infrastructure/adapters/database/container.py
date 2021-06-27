@@ -8,14 +8,20 @@ from typing import Any
 
 from sqlalchemy.engine import Engine
 from sqlalchemy.ext.asyncio import create_async_engine
+from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.ext.declarative import DeclarativeMeta
+from sqlalchemy.orm import sessionmaker
 
-from dependency_injector import containers, providers
+from dependency_injector import containers
+from dependency_injector import providers
+
 
 from src.infrastructure.configuration import DBConfiguration
 
 from src.infrastructure.adapters.database.repositories.user import UserRepository
 from src.infrastructure.adapters.database.services.user import UserService
+from src.infrastructure.adapters.database.database import AsyncDatabase
+from src.infrastructure.adapters.database.tables import metadata
 
 
 async def init_db(
@@ -27,7 +33,7 @@ async def init_db(
     database_pool_size: int,
     database_pool_max_overflow: int,
     sa_metadata: Optional[DeclarativeMeta] = None,
-) -> AsyncIterator[Engine]:
+) -> AsyncIterator[AsyncSession]:
     uri = "postgresql+asyncpg://{user}:{password}@{host}/{database}".format(
         host=database_host,
         database=database_name,
@@ -43,9 +49,12 @@ async def init_db(
 
     if sa_metadata:
         async with engine.begin() as conn:
+            logging.info("create all")
             await conn.run_sync(sa_metadata.create_all)
 
-    yield engine
+    async_database = AsyncDatabase(engine)
+
+    yield async_database
 
     await engine.dispose()
 
@@ -54,7 +63,7 @@ class DBContainer(containers.DeclarativeContainer):
 
     config = providers.Configuration()
 
-    db = providers.Resource(
+    async_db = providers.Resource(
         init_db,
         database_host=config.database_host,
         database_name=config.database_name,
@@ -63,12 +72,12 @@ class DBContainer(containers.DeclarativeContainer):
         database_verbose=config.database_verbose,
         database_pool_size=config.database_pool_size,
         database_pool_max_overflow=config.database_pool_max_overflow,
-        sa_metadata=None,
+        sa_metadata=metadata,
     )
 
     user_repository = providers.Factory(
         UserRepository,
-        session_factory=db.provided.session,
+        session_factory=async_db.provided.session,
     )
 
     user_service = providers.Factory(
@@ -77,12 +86,12 @@ class DBContainer(containers.DeclarativeContainer):
     )
 
 
-def setup_db(endpoints: List[Any]) -> DBContainer:
+def setup_db(injectable_modules: List[Any]) -> DBContainer:
     container = DBContainer()
 
     config: DBConfiguration = DBConfiguration()
     logging.debug(f"Using db on {config.database_host}/{config.database_name}")
     container.config.from_pydantic(config)
 
-    container.wire(modules=endpoints)
+    container.wire(modules=injectable_modules)
     return container

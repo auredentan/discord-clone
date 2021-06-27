@@ -1,16 +1,23 @@
+import uuid
+
 from sqlalchemy import Column
-from sqlalchemy import String
+from sqlalchemy import Text
 from sqlalchemy import Boolean
 
+from sqlalchemy_utils import UUIDType
+
 from src.infrastructure.adapters.database.tables.base import Auditable
-from src.infrastructure.adapters.database.tables.utils import GUID
 
 
 class User(Auditable):
 
     __tablename__ = "user"
 
-    id = Column(GUID, primary_key=True)
-    email = Column(String, unique=True)
-    hashed_password = Column(String)
+    id = Column(
+        UUIDType(binary=False),
+        primary_key=True,
+        default=str(uuid.uuid4()),
+    )
+    email = Column(Text, unique=True)
+    hashed_password = Column(Text)
     is_active = Column(Boolean, default=True)
