@@ -28,6 +28,5 @@ async def create_user(
 ):
 
     user = await user_service.create_user()
-
-
+    logging.info(f"user {user.id} - {user.__dict__} - {type(user.id)}")
     return PydanticUser.from_orm(user) if user else None

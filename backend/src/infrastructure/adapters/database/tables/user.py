@@ -1,3 +1,4 @@
+from backend.src.infrastructure.adapters.database.tables.util import GUID
 import uuid
 
 from sqlalchemy import Column

@@ -27,7 +27,9 @@ class UserService:
 
     async def create_user(self) -> User:
         uid = uuid4()
-        return await self._repository.add(email=f"{uid}@emaikl.dlcom", password="pdkwld")
+        return await self._repository.add(
+            email=f"{uid}@emaikl.dlcom", password="pdkwld"
+        )
 
     async def delete_user_by_id(self, user_id: int) -> None:
         try:

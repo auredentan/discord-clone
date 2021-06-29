@@ -1,5 +1,3 @@
-import logging
-
 from typing import Iterator
 
 from src.infrastructure.adapters.database.tables.user import User
@@ -20,16 +18,13 @@ class UserRepository:
                 raise UserNotFoundError(user_id)
             return user
 
-    async def add(
-        self, email: str, password: str, is_active: bool = True
-    ) -> User:
+    async def add(self, email: str, password: str, is_active: bool = True) -> User:
         async with self.session_factory() as session:
             user = User(
                 email=email,
                 hashed_password=password,
                 is_active=is_active,
             )
-            logging.info(f"user; {user} - {session}")
             session.add(user)
             await session.commit()
             await session.refresh(user)

@@ -3,11 +3,19 @@ from typing import List
 from fastapi import FastAPI
 from fastapi import APIRouter
 
+from starlette.middleware.httpsredirect import HTTPSRedirectMiddleware
+
 from src.entrypoints import init_logging
 
 from src.infrastructure.adapters.database.container import setup_db
 from src.infrastructure.adapters.redis.container import setup_redis
 from src.infrastructure.adapters.broadcast.container import setup_broadcast
+
+from src.infrastructure.adapters.tracing import setup_tracing
+
+from src.infrastructure.adapters.rate_limit import setup_rate_limit
+
+from src.infrastructure.adapters.cors import setup_cors
 
 from src.infrastructure.fastapi.main import create_app
 
@@ -35,6 +43,19 @@ def construct_api_app() -> FastAPI:
     ]
     app = create_app(routers)
 
+    # Tracing
+    setup_tracing(app)
+
+    # Cors
+    setup_cors(app)
+
+    # Rate limit
+    setup_rate_limit(app)
+
+    # Https redirect
+    app.add_middleware(HTTPSRedirectMiddleware)
+
+    # Dependency injection
     setup_containers(app)
 
     # Setup logging module
