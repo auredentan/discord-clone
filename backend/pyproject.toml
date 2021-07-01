@@ -20,6 +20,7 @@ pydantic-sqlalchemy = "^0.0.9"
 asyncpg = "^0.23.0"
 SQLAlchemy-Utils = "^0.37.7"
 asgi-ratelimit = {version = "^0.5.1", extras = ["full"]}
+opentelemetry-instrumentation-fastapi = "^0.22b0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.4"

@@ -10,18 +10,25 @@ from sqlalchemy.engine import Engine
 from sqlalchemy.ext.asyncio import create_async_engine
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.ext.declarative import DeclarativeMeta
-from sqlalchemy.orm import sessionmaker
 
 from dependency_injector import containers
 from dependency_injector import providers
 
+from src.infrastructure.adapters.database.database import AsyncDatabase
+from src.infrastructure.adapters.database.tables import metadata
 
 from src.infrastructure.configuration import DBConfiguration
 
 from src.infrastructure.adapters.database.repositories.user import UserRepository
 from src.infrastructure.adapters.database.services.user import UserService
-from src.infrastructure.adapters.database.database import AsyncDatabase
-from src.infrastructure.adapters.database.tables import metadata
+
+from src.infrastructure.adapters.database.repositories.server import ServerRepository
+from src.infrastructure.adapters.database.services.server import ServerService
+
+from src.infrastructure.adapters.database.services.server_role import ServerRoleService
+from src.infrastructure.adapters.database.repositories.server_role import (
+    ServerRoleRepository,
+)
 
 
 async def init_db(
@@ -75,6 +82,7 @@ class DBContainer(containers.DeclarativeContainer):
         sa_metadata=metadata,
     )
 
+    # User
     user_repository = providers.Factory(
         UserRepository,
         session_factory=async_db.provided.session,
@@ -83,6 +91,28 @@ class DBContainer(containers.DeclarativeContainer):
     user_service = providers.Factory(
         UserService,
         user_repository=user_repository,
+    )
+
+    # Server
+    server_repository = providers.Factory(
+        ServerRepository,
+        session_factory=async_db.provided.session,
+    )
+
+    server_service = providers.Factory(
+        ServerService,
+        server_repository=server_repository,
+    )
+
+    # Server Role
+    server_role_repository = providers.Factory(
+        ServerRoleRepository,
+        session_factory=async_db.provided.session,
+    )
+
+    server_role_service = providers.Factory(
+        ServerRoleService,
+        server_role_repository=server_role_repository,
     )
 
 

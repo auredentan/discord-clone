@@ -12,7 +12,7 @@ from src.entities.user import PydanticUser
 
 
 @inject
-async def get_user(
+async def get_user_by_id(
     user_id: str,
     user_service: UserService = Provide[DBContainer.user_service],
 ) -> Optional[PydanticUser]:
@@ -27,6 +27,5 @@ async def create_user(
     user_service: UserService = Provide[DBContainer.user_service],
 ):
 
-    user = await user_service.create_user()
-    logging.info(f"user {user.id} - {user.__dict__} - {type(user.id)}")
-    return PydanticUser.from_orm(user) if user else None
+    created_user = await user_service.create_user()
+    return PydanticUser.from_orm(created_user) if created_user else None
