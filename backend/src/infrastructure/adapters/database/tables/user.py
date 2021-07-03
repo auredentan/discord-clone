@@ -1,10 +1,6 @@
-from backend.src.infrastructure.adapters.database.tables.util import GUID
 import uuid
 
-from sqlalchemy import Column
-from sqlalchemy import Text
-from sqlalchemy import Boolean
-
+from sqlalchemy import Boolean, Column, Text
 from sqlalchemy_utils import UUIDType
 
 from src.infrastructure.adapters.database.tables.base import Auditable

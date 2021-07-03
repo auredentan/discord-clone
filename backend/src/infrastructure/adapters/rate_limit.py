@@ -1,14 +1,14 @@
+from typing import Any
 from typing import Tuple
 
-from fastapi import FastApi
+from fastapi import FastAPI  # type: ignore[attr-defined]
 
-from starlette import Scope
-
-from ratelimit import RateLimitMiddleware, Rule
+from ratelimit import RateLimitMiddleware
+from ratelimit import Rule
 from ratelimit.backends.redis import RedisBackend
 
 
-async def AUTH_FUNCTION(scope: Scope) -> Tuple[str, str]:
+async def AUTH_FUNCTION(scope: Any) -> Tuple[str, str]:
     """
     Resolve the user's unique identifier and the user's group from ASGI SCOPE.
 
@@ -20,7 +20,8 @@ async def AUTH_FUNCTION(scope: Scope) -> Tuple[str, str]:
     # or use the function in the following document directly.
     return "-1", "default"
 
-def setup_rate_limit(app: FastApi):
+
+def setup_rate_limit(app: FastAPI) -> None:
 
     app.add_middleware(
         RateLimitMiddleware,

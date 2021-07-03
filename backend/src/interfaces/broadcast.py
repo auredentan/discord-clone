@@ -1,4 +1,5 @@
 from typing import Any
+from typing import AsyncIterator
 
 
 class Event:
@@ -15,10 +16,10 @@ class IBroadcast:
     async def disconnect(self) -> None:
         raise NotImplementedError()
 
-    async def subscribe(self, group: str) -> None:
+    async def subscribe(self, channel: str) -> AsyncIterator[Any]:
         raise NotImplementedError()
 
-    async def unsubscribe(self, group: str) -> None:
+    async def unsubscribe(self, channel: str) -> None:
         raise NotImplementedError()
 
     async def publish(self, channel: str, message: Any) -> None:

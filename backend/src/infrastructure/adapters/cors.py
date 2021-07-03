@@ -1,9 +1,9 @@
-from fastapi import FastApi
+from fastapi import FastAPI  # type: ignore[attr-defined]
 
 from starlette.middleware.cors import CORSMiddleware
 
 
-def setup_cors(app: FastApi):
+def setup_cors(app: FastAPI) -> None:
     app.add_middleware(
         CORSMiddleware,
         allow_origins=["*"],

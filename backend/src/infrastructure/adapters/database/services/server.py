@@ -1,15 +1,12 @@
 import logging
-
+from typing import Iterator, List, Optional
 from uuid import uuid4
-from typing import Iterator
-from typing import List
-from typing import Optional
 
-from src.infrastructure.adapters.database.repositories.server import ServerRepository
-from src.infrastructure.adapters.database.repositories.server import ServerNotFoundError
-
-from src.infrastructure.adapters.database.tables.server import Server
-from src.infrastructure.adapters.database.tables.server import ServerMember
+from src.infrastructure.adapters.database.repositories.server import (
+    ServerNotFoundError,
+    ServerRepository,
+)
+from src.infrastructure.adapters.database.tables.server import Server, ServerMember
 
 
 class ServerService:

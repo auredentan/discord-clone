@@ -1,8 +1,8 @@
-from fastapi import APIRouter
-from fastapi import Depends
+from fastapi import APIRouter  # type: ignore[attr-defined]
+from fastapi import Depends  # type: ignore[attr-defined]
 
-from dependency_injector.wiring import inject
 from dependency_injector.wiring import Provide
+from dependency_injector.wiring import inject
 
 from src.infrastructure.adapters.redis.container import RedisContainer
 from src.infrastructure.adapters.redis.service import RedisService

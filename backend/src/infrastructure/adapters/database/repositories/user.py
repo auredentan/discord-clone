@@ -1,10 +1,12 @@
 from typing import Iterator
 
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from src.infrastructure.adapters.database.tables.user import User
 
 
 class UserRepository:
-    def __init__(self, session_factory) -> None:
+    def __init__(self, session_factory: AsyncSession) -> None:
         self.session_factory = session_factory
 
     async def get_all(self) -> Iterator[User]:
@@ -43,7 +45,7 @@ class NotFoundError(Exception):
 
     entity_name: str
 
-    def __init__(self, entity_id):
+    def __init__(self, entity_id: int) -> None:
         super().__init__(f"{self.entity_name} not found, id: {entity_id}")
 
 

@@ -1,10 +1,12 @@
 from typing import Iterator
 
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from src.infrastructure.adapters.database.tables.server import ServerRole
 
 
 class ServerRoleRepository:
-    def __init__(self, session_factory) -> None:
+    def __init__(self, session_factory: AsyncSession) -> None:
         self.session_factory = session_factory
 
     async def get_all(self) -> Iterator[ServerRole]:
@@ -13,7 +15,11 @@ class ServerRoleRepository:
 
     async def get_by_id(self, server_role_id: int) -> ServerRole:
         async with self.session_factory() as session:
-            user = await session.query(ServerRole).filter(ServerRole.id == server_role_id).first()
+            user = (
+                await session.query(ServerRole)
+                .filter(ServerRole.id == server_role_id)
+                .first()
+            )
             if not user:
                 raise ServerRoleNotFoundError(server_role_id)
             return user
@@ -28,7 +34,9 @@ class ServerRoleRepository:
     async def delete_by_id(self, server_role_id: int) -> None:
         async with self.session_factory() as session:
             entity: ServerRole = (
-                await session.query(ServerRole).filter(ServerRole.id == server_role_id).first()
+                await session.query(ServerRole)
+                .filter(ServerRole.id == server_role_id)
+                .first()
             )
             if not entity:
                 raise ServerRoleNotFoundError(server_role_id)
@@ -40,7 +48,7 @@ class NotFoundError(Exception):
 
     entity_name: str
 
-    def __init__(self, entity_id):
+    def __init__(self, entity_id: int) -> None:
         super().__init__(f"{self.entity_name} not found, id: {entity_id}")
 
 

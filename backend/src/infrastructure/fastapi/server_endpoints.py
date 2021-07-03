@@ -1,9 +1,7 @@
-from fastapi import APIRouter
+from fastapi import APIRouter  # type: ignore[attr-defined]
 
-from src.entities.server import PydanticServer
-
+from src.entities.server import PydanticServer  # type: ignore[attr-defined]
 from src.infrastructure.adapters.database.tables.user import User
-
 from src.use_cases.server import create_server as create_server_use_case
 
 router = APIRouter()

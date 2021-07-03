@@ -1,25 +1,18 @@
-from backend.src.infrastructure.adapters.database.tables.user import User
 import logging
-
+from typing import Iterator, List, Optional
 from uuid import uuid4
-from typing import Iterator
-from typing import List
-from typing import Optional
 
 from src.infrastructure.adapters.database.repositories.server_member import (
     ServerMemberNotFoundError,
-)
-from src.infrastructure.adapters.database.repositories.server_member import (
     ServerMemberRepository,
 )
-
-from src.infrastructure.adapters.database.tables.server import ServerMember
-from src.infrastructure.adapters.database.tables.server import ServerRole
+from src.infrastructure.adapters.database.tables.server import ServerMember, ServerRole
+from src.infrastructure.adapters.database.tables.user import User
 
 
 class ServerMemberService:
-    def __init__(self, server_role_repository: ServerMemberRepository) -> None:
-        self._repository: ServerMemberRepository = server_role_repository
+    def __init__(self, server_member_repository: ServerMemberRepository) -> None:
+        self._repository: ServerMemberRepository = server_member_repository
 
     async def get_server_members(self) -> Iterator[ServerMember]:
         return await self._repository.get_all()
@@ -38,7 +31,7 @@ class ServerMemberService:
     ) -> ServerMember:
         uid = uuid4()
 
-        server = ServerMember(id=uid, name=name, roles=roles, user=user)
+        server = ServerMember(id=uid, name=user.email, roles=roles, user_id=user.id)
 
         return await self._repository.add(server)
 

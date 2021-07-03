@@ -1,17 +1,16 @@
 import logging
 
-from typing import List
-from typing import AsyncIterator
 from typing import Any
+from typing import AsyncIterator
+from typing import List
 
-from aioredis import create_redis_pool
-from aioredis import Redis
+from aioredis import Redis, create_redis_pool
 
 from dependency_injector import containers
 from dependency_injector import providers
 
-from src.infrastructure.configuration import RedisConfiguration
 from src.infrastructure.adapters.redis.service import RedisService
+from src.infrastructure.configuration import RedisConfiguration
 
 
 async def init_redis_pool(host: str, port: int) -> AsyncIterator[Redis]:
@@ -31,7 +30,7 @@ class RedisContainer(containers.DeclarativeContainer):
         port=config.redis_port,
     )
 
-    service = providers.Factory(
+    service: RedisService = providers.Factory(
         RedisService,
         redis=redis_pool,
     )

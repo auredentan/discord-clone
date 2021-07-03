@@ -1,7 +1,6 @@
 from typing import Optional
 
-from pydantic import BaseSettings
-from pydantic import Field
+from pydantic import BaseSettings, Field
 
 
 class EnvBaseSettings(BaseSettings):

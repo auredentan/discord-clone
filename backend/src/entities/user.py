@@ -1,12 +1,15 @@
-from pydantic_sqlalchemy import sqlalchemy_to_pydantic
+from pydantic.main import BaseModel
 
 from src.infrastructure.adapters.database.tables.user import User
 
-_PydanticUser = sqlalchemy_to_pydantic(User)
 
+class PydanticUser(BaseModel):
+    id: str
+    email: str
+    hashed_password: str
+    is_active: str
 
-class PydanticUser(_PydanticUser):
     @classmethod
-    def from_orm(cls, user: _PydanticUser) -> _PydanticUser:
+    def from_orm(cls, user: User) -> "PydanticUser":
         user.id = str(user.id)
-        return _PydanticUser.from_orm(user)
+        return cls.from_orm(user)

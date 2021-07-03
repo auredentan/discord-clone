@@ -1,15 +1,12 @@
 import logging
 
-from typing import Callable
-
-from contextlib import asynccontextmanager
-from contextlib import AbstractContextManager
-
 from asyncio import current_task
 
+from contextlib import asynccontextmanager
+
 from sqlalchemy.engine.base import Engine
-from sqlalchemy.ext.asyncio import async_scoped_session
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.ext.asyncio import async_scoped_session
 from sqlalchemy.orm import sessionmaker
 
 logger = logging.getLogger(__name__)
@@ -23,7 +20,7 @@ class AsyncDatabase:
         )
 
     @asynccontextmanager
-    async def session(self):
+    async def session(self) -> AsyncSession:
         session: AsyncSession = self._session_factory()
         try:
             yield session

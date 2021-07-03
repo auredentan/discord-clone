@@ -1,8 +1,6 @@
 import logging
-
+from typing import Iterator, Optional
 from uuid import uuid4
-from typing import Iterator
-from typing import Optional
 
 from src.infrastructure.adapters.database.repositories.user import (
     UserNotFoundError,

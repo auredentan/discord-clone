@@ -1,16 +1,8 @@
+import pytest
 from fastapi.testclient import TestClient
 
-import pytest
-
-from src.infrastructure.adapters.redis.service import RedisService
-
 from src.entrypoints.api import app
-
-
-def test_healthz(test_client: TestClient):
-    response = test_client.get("/healthz")
-    assert response.status_code == 200
-    assert response.json() == "healthy"
+from src.infrastructure.adapters.redis.service import RedisService
 
 
 @pytest.mark.asyncio

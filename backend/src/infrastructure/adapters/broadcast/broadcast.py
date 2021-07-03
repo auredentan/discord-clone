@@ -1,7 +1,7 @@
-from contextlib import asynccontextmanager
-
 from typing import Any
 from typing import AsyncIterator
+
+from contextlib import asynccontextmanager
 
 import aioredis
 
@@ -15,8 +15,8 @@ class Broadcast(IBroadcast):
 
         self.redis_url = f"redis://{redis_host}:{redis_port}"
 
-        self.pub = None
-        self.sub = None
+        self.pub: aioredis.Redis = None
+        self.sub: aioredis.Redis = None
 
     async def __aenter__(self) -> "Broadcast":
         await self.connect()
@@ -25,22 +25,22 @@ class Broadcast(IBroadcast):
     async def __aexit__(self, *args: Any, **kwargs: Any) -> None:
         await self.disconnect()
 
-    async def connect(self):
+    async def connect(self) -> None:
         self.pub = await aioredis.create_redis(self.redis_url)
         self.sub = await aioredis.create_redis(self.redis_url)
 
-    async def disconnect(self):
+    async def disconnect(self) -> None:
         self.sub.close()
         self.pub.close()
 
-    async def publish(self, channel: str, message: dict):
+    async def publish(self, channel: str, message: dict) -> None:
         self.pub.publish(channel, message)
 
-    async def unsubscribe(self, channel: str):
+    async def unsubscribe(self, channel: str) -> None:
         await self.sub.unsubscribe(channel)
 
     @asynccontextmanager
-    async def subscribe(self, channel: str) -> AsyncIterator[aioredis.Channel]:
+    async def subscribe(self, channel: str) -> AsyncIterator[aioredis.Channel]: # type: ignore[override]
         try:
             channels = await self.sub.subscribe(channel)
             if channels:

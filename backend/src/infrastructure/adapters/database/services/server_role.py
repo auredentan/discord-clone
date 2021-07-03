@@ -1,16 +1,11 @@
 import logging
-
+from typing import Iterator, Optional
 from uuid import uuid4
-from typing import Iterator
-from typing import Optional
 
 from src.infrastructure.adapters.database.repositories.server_role import (
     ServerRoleNotFoundError,
-)
-from src.infrastructure.adapters.database.repositories.server_role import (
     ServerRoleRepository,
 )
-
 from src.infrastructure.adapters.database.tables.server import ServerRole
 
 

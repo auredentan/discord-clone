@@ -1,19 +1,21 @@
 import logging
 import os
 
+from typing import List
+
 try:
     import coloredlogs
 except ImportError:
     coloredlogs = None
 
-FORMAT = (
+FORMAT: str = (
     "%(asctime)s %(threadName)s %(levelname)s: %(message)s (%(pathname)s:%(lineno)d)"
 )
 
-EXCLUDED_LOGGERS = []
+EXCLUDED_LOGGERS: List[str] = []
 
 
-def init_logging():
+def init_logging() -> None:
     logger = logging.getLogger()
     logger.setLevel(logging.DEBUG)
     if coloredlogs:

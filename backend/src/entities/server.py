@@ -1,9 +1,14 @@
+#  type: ignore
+
 from pydantic_sqlalchemy import sqlalchemy_to_pydantic
 
-from src.infrastructure.adapters.database.tables.server import Server
-from src.infrastructure.adapters.database.tables.server import ServerMember
-from src.infrastructure.adapters.database.tables.server import ServerRole
-
+from src.infrastructure.adapters.database.tables.server import (
+    Server,
+)
+from src.infrastructure.adapters.database.tables.server import Server, ServerMember
+from src.infrastructure.adapters.database.tables.server import (
+    ServerRole,
+)
 
 _PydanticServer = sqlalchemy_to_pydantic(Server)
 

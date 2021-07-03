@@ -27,6 +27,15 @@ backend-format:  ## Format files
 	poetry run black src/ tests/; \
 	poetry run isort src/ tests/
 
+.PHONY: backend-lint
+backend-lint:  ## Lint
+	@cd ${BACKEND_DIR}; \
+	poetry run pylint --jobs 0 src/
+
+.PHONY: backend-check
+backend-check:  ## Check
+	@cd ${BACKEND_DIR}; \
+	poetry run mypy --config=${BACKEND_DIR}/setup.cfg src/
 
 .PHONY: backend-start-redis
 backend-start-redis:

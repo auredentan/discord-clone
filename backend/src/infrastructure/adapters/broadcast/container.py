@@ -1,14 +1,10 @@
-from typing import AsyncIterator
-from typing import List
-from typing import Any
+from typing import Any, AsyncIterator, List
 
+from dependency_injector import containers, providers
 
-from dependency_injector import containers
-from dependency_injector import providers
-
-from src.infrastructure.configuration import BroadcastConfiguration
 from src.infrastructure.adapters.broadcast.broadcast import Broadcast
 from src.infrastructure.adapters.broadcast.service import BroadcastService
+from src.infrastructure.configuration import BroadcastConfiguration
 
 
 async def init_broadcast(redis_host: str, redis_port: int) -> AsyncIterator[Broadcast]:
@@ -28,7 +24,7 @@ class BroadcastContainer(containers.DeclarativeContainer):
         redis_port=config.redis_config.redis_port,
     )
 
-    service = providers.Factory(
+    service: BroadcastService = providers.Factory(
         BroadcastService,
         broadcast=broadcast,
     )
