@@ -1,5 +1,10 @@
-from sqlalchemy import Column, ForeignKey, Text
-from sqlalchemy.orm import backref, relationship
+from sqlalchemy import Column
+from sqlalchemy import ForeignKey
+from sqlalchemy import Text
+from sqlalchemy import Integer
+from sqlalchemy import Boolean
+
+from sqlalchemy.orm import relationship
 from sqlalchemy.sql.schema import Table
 from sqlalchemy_utils import UUIDType
 
@@ -64,3 +69,17 @@ class Server(Auditable):
     # One to many
     # One server can have one or several members
     members = relationship("ServerMember")
+
+
+class ServerInvitation(Auditable):
+
+    __tablename__ = "serverInvitation"
+
+    id = Column(UUIDType(binary=False), primary_key=True)
+    code = Column(Text, unique=True, index=True)
+    server_id = Column(UUIDType(binary=False), ForeignKey("server.id"))
+    creator = Column(UUIDType(binary=False), ForeignKey("user.id"))
+    max_age = Column(Integer)
+    max_uses = Column(Integer)
+    uses = Column(Integer)
+    temporary = Column(Boolean)

@@ -14,12 +14,14 @@ from dependency_injector.wiring import inject
 from src.infrastructure.adapters.broadcast.container import BroadcastContainer
 from src.infrastructure.adapters.broadcast.service import BroadcastService
 
+from src.use_cases.dtos.channels import ChannelInvitesResponse
+from src.use_cases.dtos.channels import ChannelInvitesRequest
+
 router = APIRouter()
 
 
 @router.websocket("/channels/{channel_id}/chat")
 async def chatroom_ws(websocket: WebSocket, channel_id: str) -> Any:
-    logging.debug(f"chatroom_ws: {channel_id}")
     await websocket.accept()
     await run_until_first_complete(
         (chatroom_ws_receiver, {"websocket": websocket, "channel_id": channel_id}),
@@ -33,7 +35,6 @@ async def chatroom_ws_receiver(
     channel_id: str,
     broadcast_service: BroadcastService = Depends(Provide[BroadcastContainer.service]),
 ) -> Any:
-    logging.debug(f"chatroom_ws_receiver: {channel_id} - {broadcast_service}")
     async for message in websocket.iter_text():
         await broadcast_service.broadcast.publish(channel=channel_id, message=message)
 
@@ -44,7 +45,15 @@ async def chatroom_ws_sender(
     channel_id: str,
     broadcast_service: BroadcastService = Depends(Provide[BroadcastContainer.service]),
 ) -> Any:
-    logging.debug(f"chatroom_ws_sender: {channel_id} - {broadcast_service}")
     async with broadcast_service.broadcast.subscribe(channel=channel_id) as subscriber:
         async for event in subscriber:
             await websocket.send_text(event.message)
+
+
+@router.post("/channels/{channel_id}/invites", response_model=ChannelInvitesResponse)
+async def get_invites(request: ChannelInvitesRequest) -> ChannelInvitesResponse:
+    logging.debug(f"get_invites: {request} ")
+    ## TODO: create an invite link
+    # eg: discord.gg/<number>
+    # number encrypts the infos
+    pass

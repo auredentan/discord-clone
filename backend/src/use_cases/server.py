@@ -1,8 +1,11 @@
 from typing import Optional
 
-from dependency_injector.wiring import Provide, inject
+from dependency_injector.wiring import Provide
+from dependency_injector.wiring import inject
 
+from src.entities.server import BaseServerRole  # type: ignore[attr-defined]
 from src.entities.server import PydanticServer  # type: ignore[attr-defined]
+
 from src.infrastructure.adapters.database.container import DBContainer
 from src.infrastructure.adapters.database.services.server import ServerService
 from src.infrastructure.adapters.database.services.server_member import (
@@ -28,7 +31,7 @@ async def create_server(
 
     # Add the user as admin
     connected_user_server_member_role = await server_role_service.create_server_role(
-        name="admin"
+        name=BaseServerRole.admin.value
     )
     connected_user_server_member = await server_member_service.create_server_member(
         connected_user.email,
@@ -40,3 +43,4 @@ async def create_server(
     )
 
     return PydanticServer.from_orm(created_server) if created_server else None
+

@@ -1,3 +1,5 @@
+build_name=backend
+
 .PHONY: backend-clean
 backend-clean:  ## Cleanup
 	@cd ${BACKEND_DIR}; \
@@ -14,7 +16,7 @@ backend-init: clean  ## Init
 .PHONY: backend-start
 backend-start: backend-start-db backend-start-redis ## Start the dev server
 	@cd ${BACKEND_DIR}; \
-	poetry run gunicorn src.entrypoints.api:app -w 2 -k uvicorn.workers.UvicornWorker --reload --bind=localhost:8001
+	poetry run gunicorn src.entrypoints.api:app -w 2 -k uvicorn.workers.UvicornWorker --reload --bind=0.0.0.0:8001
 
 .PHONY: backend-test
 backend-test:  ## Run tests
@@ -44,3 +46,8 @@ backend-start-redis:
 .PHONY: backend-start-db
 backend-start-db:
 	docker-compose -f ${BACKEND_DIR}/local/docker-compose.yaml up -d db
+
+.PHONY: backend-build
+backend-build:
+	docker build -f ${BACKEND_DIR}/local/Dockerfile -t ${build_name} . 
+	

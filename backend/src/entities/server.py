@@ -1,5 +1,7 @@
 #  type: ignore
 
+from enum import Enum
+
 from pydantic_sqlalchemy import sqlalchemy_to_pydantic
 
 from src.infrastructure.adapters.database.tables.server import (
@@ -38,3 +40,8 @@ class PydanticServerRole(_PydanticServerRole):
     def from_orm(cls, server_role: _PydanticServerRole) -> _PydanticServerRole:
         server_role.id = str(server_role.id)
         return _PydanticServerRole.from_orm(server_role)
+
+
+class BaseServerRole(Enum):
+    admin = "admin"
+    anonymous = "anonymous"

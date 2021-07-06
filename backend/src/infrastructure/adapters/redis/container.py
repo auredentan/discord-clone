@@ -4,7 +4,8 @@ from typing import Any
 from typing import AsyncIterator
 from typing import List
 
-from aioredis import Redis, create_redis_pool
+from aioredis import Redis
+from aioredis import create_redis_pool
 
 from dependency_injector import containers
 from dependency_injector import providers
