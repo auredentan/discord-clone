@@ -3,7 +3,9 @@ from typing import Iterator
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.infrastructure.adapters.database.tables.user import User
+from src.infrastructure.adapters.database.repositories.errors import NotFoundError
 
+from entities.user import PydanticUser
 
 class UserRepository:
     def __init__(self, session_factory: AsyncSession) -> None:
@@ -20,13 +22,9 @@ class UserRepository:
                 raise UserNotFoundError(user_id)
             return user
 
-    async def add(self, email: str, password: str, is_active: bool = True) -> User:
+    async def add(self, user: User) -> User:
         async with self.session_factory() as session:
-            user = User(
-                email=email,
-                hashed_password=password,
-                is_active=is_active,
-            )
+            
             session.add(user)
             await session.commit()
             await session.refresh(user)
@@ -40,13 +38,17 @@ class UserRepository:
             session.delete(entity)
             await session.commit()
 
+    async def update(self, user: PydanticUser) -> User:
+        async with self.session_factory() as session:
+            existing_user = await self.get_by_id(user.id)
 
-class NotFoundError(Exception):
+            for key, value in user.dict(exclude={"id"}).items():
+                if hasattr(existing_user, key):
+                    setattr(existing_user, key, value)
 
-    entity_name: str
-
-    def __init__(self, entity_id: int) -> None:
-        super().__init__(f"{self.entity_name} not found, id: {entity_id}")
+            await session.commit()
+            await session.refresh(existing_user)
+            return existing_user
 
 
 class UserNotFoundError(NotFoundError):

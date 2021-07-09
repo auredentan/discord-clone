@@ -3,6 +3,7 @@ from typing import Iterator
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.infrastructure.adapters.database.tables.server import ServerMember
+from src.infrastructure.adapters.database.repositories.errors import NotFoundError
 
 
 class ServerMemberRepository:
@@ -42,14 +43,6 @@ class ServerMemberRepository:
                 raise ServerMemberNotFoundError(server_member_id)
             session.delete(entity)
             await session.commit()
-
-
-class NotFoundError(Exception):
-
-    entity_name: str
-
-    def __init__(self, entity_id: int) -> None:
-        super().__init__(f"{self.entity_name} not found, id: {entity_id}")
 
 
 class ServerMemberNotFoundError(NotFoundError):

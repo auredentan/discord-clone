@@ -6,6 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.infrastructure.adapters.database.tables.server import Server
 from src.infrastructure.adapters.database.tables.server import ServerMember
+from src.infrastructure.adapters.database.repositories.errors import NotFoundError
 
 
 class ServerRepository:
@@ -57,14 +58,6 @@ class ServerRepository:
             await session.execute(query)
             await session.refresh(server)
             return server
-
-
-class NotFoundError(Exception):
-
-    entity_name: str
-
-    def __init__(self, entity_id: int) -> None:
-        super().__init__(f"{self.entity_name} not found, id: {entity_id}")
 
 
 class ServerNotFoundError(NotFoundError):

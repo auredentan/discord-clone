@@ -22,15 +22,16 @@ from src.infrastructure.adapters.database.repositories.server_role import (
     ServerRoleRepository,
 )
 from src.infrastructure.adapters.database.repositories.user import UserRepository
-from src.infrastructure.adapters.database.services.server import ServerService
-from src.infrastructure.adapters.database.services.server_member import (
-    ServerMemberService,
-)
-from src.infrastructure.adapters.database.services.server_role import ServerRoleService
-from src.infrastructure.adapters.database.services.user import UserService
 from src.infrastructure.adapters.database.tables import metadata
 
 from src.infrastructure.configuration import DBConfiguration
+
+from src.use_cases.services.server import ServerService
+from src.use_cases.services.server_member import (
+    ServerMemberService,
+)
+from src.use_cases.services.server_role import ServerRoleService
+from src.use_cases.services.user import UserService
 
 
 async def init_db(
