@@ -1,7 +1,11 @@
+from typing import Generator
+
 from unittest import mock
 
 import pytest
+
 from fastapi.testclient import TestClient
+
 from httpx import AsyncClient
 
 from src.entrypoints.api import app
@@ -12,13 +16,14 @@ from src.infrastructure.adapters.database.repositories.server_member import (
 from src.infrastructure.adapters.database.repositories.server_role import (
     ServerRoleRepository,
 )
-from src.infrastructure.adapters.database.services.server import ServerService
-from src.infrastructure.adapters.database.services.server_member import (
-    ServerMemberService,
-)
-from src.infrastructure.adapters.database.services.server_role import ServerRoleService
 from src.infrastructure.adapters.database.tables.user import User
 from src.infrastructure.adapters.redis.service import RedisService
+
+from src.use_cases.services.server import ServerService
+from src.use_cases.services.server_member import (
+    ServerMemberService,
+)
+from src.use_cases.services.server_role import ServerRoleService
 
 
 @pytest.fixture
@@ -44,25 +49,25 @@ def fake_user() -> User:
 
 
 @pytest.fixture
-def fake_redis_service() -> RedisService:
+def fake_redis_service() -> Generator[RedisService, None, None]:
     service_mock = mock.AsyncMock(spec=RedisService)
     yield service_mock
 
 
 @pytest.fixture
-def fake_server_service() -> ServerService:
+def fake_server_service() -> Generator[ServerService, None, None]:
     service_mock = mock.AsyncMock(spec=ServerService)
     yield service_mock
 
 
 @pytest.fixture
-def fake_server_role_service() -> ServerRoleService:
+def fake_server_role_service() -> Generator[ServerRoleService, None, None]:
     service_mock = mock.AsyncMock(spec=ServerRoleService)
     yield service_mock
 
 
 @pytest.fixture
-def fake_server_member_service() -> ServerMemberService:
+def fake_server_member_service() -> Generator[ServerMemberService, None, None]:
     service_mock = mock.AsyncMock(spec=ServerMemberService)
     yield service_mock
 
@@ -73,18 +78,18 @@ def fake_server_member_service() -> ServerMemberService:
 
 
 @pytest.fixture
-def server_repository_mock() -> ServerRepository:
+def server_repository_mock() -> Generator[ServerRepository, None, None]:
     server_repository_mock = mock.AsyncMock(spec=ServerRepository)
     yield server_repository_mock
 
 
 @pytest.fixture
-def server_role_repository_mock() -> ServerRoleRepository:
+def server_role_repository_mock() -> Generator[ServerRoleRepository, None, None]:
     server_role_repository_mock = mock.AsyncMock(spec=ServerRoleRepository)
     yield server_role_repository_mock
 
 
 @pytest.fixture
-def server_member_repository_mock() -> ServerMemberRepository:
+def server_member_repository_mock() -> Generator[ServerMemberRepository, None, None]:
     server_member_repository_mock = mock.AsyncMock(spec=ServerMemberRepository)
     yield server_member_repository_mock

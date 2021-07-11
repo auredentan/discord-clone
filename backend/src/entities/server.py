@@ -1,8 +1,9 @@
 #  type: ignore
-
 from enum import Enum
+from typing import List
 
-from pydantic_sqlalchemy import sqlalchemy_to_pydantic
+from src.entities.base import BaseModel
+from src.entities.user import PydanticUser
 
 from src.infrastructure.adapters.database.tables.server import (
     Server,
@@ -12,36 +13,50 @@ from src.infrastructure.adapters.database.tables.server import (
     ServerRole,
 )
 
-_PydanticServer = sqlalchemy_to_pydantic(Server)
-
-
-class PydanticServer(_PydanticServer):
-    @classmethod
-    def from_orm(cls, server: _PydanticServer) -> _PydanticServer:
-        server.id = str(server.id)
-        return _PydanticServer.from_orm(server)
-
-
-_PydanticServerMember = sqlalchemy_to_pydantic(ServerMember)
-
-
-class PydanticServerMember(_PydanticServerMember):
-    @classmethod
-    def from_orm(cls, server_member: _PydanticServerMember) -> _PydanticServerMember:
-        server_member.id = str(server_member.id)
-        return _PydanticServerMember.from_orm(server_member)
-
-
-_PydanticServerRole = sqlalchemy_to_pydantic(ServerRole)
-
-
-class PydanticServerRole(_PydanticServerRole):
-    @classmethod
-    def from_orm(cls, server_role: _PydanticServerRole) -> _PydanticServerRole:
-        server_role.id = str(server_role.id)
-        return _PydanticServerRole.from_orm(server_role)
-
 
 class BaseServerRole(Enum):
     admin = "admin"
     anonymous = "anonymous"
+
+
+###############
+# Server Role #
+###############
+
+
+class PydanticServerRoleCreate(BaseModel):
+    name: str
+
+
+class PydanticServerRole(PydanticServerRoleCreate):
+    id: str
+
+
+#################
+# Server Member #
+#################
+
+
+class PydanticServerMemberCreate(BaseModel):
+    name: str
+    roles: List[PydanticServerRole]
+    user_id: str
+    server_id: str
+
+
+class PydanticServerMember(PydanticServerMemberCreate):
+    id: str
+
+
+##########
+# Server #
+##########
+
+
+class PydanticServerCreate(BaseModel):
+    name: str
+    members: List[PydanticServerMember]
+
+
+class PydanticServer(PydanticServerCreate):
+    id: str

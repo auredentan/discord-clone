@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from src.infrastructure.adapters.database.tables.user import User
 from src.infrastructure.adapters.database.repositories.errors import NotFoundError
 
-from entities.user import PydanticUser
+from src.entities.user import PydanticUser
 
 class UserRepository:
     def __init__(self, session_factory: AsyncSession) -> None:

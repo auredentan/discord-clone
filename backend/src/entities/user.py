@@ -1,15 +1,11 @@
-from pydantic.main import BaseModel
-
-from src.infrastructure.adapters.database.tables.user import User
+from src.entities.base import BaseModel
 
 
-class PydanticUser(BaseModel):
-    id: str
+class PydanticUserCreate(BaseModel):
     email: str
     hashed_password: str
     is_active: str
 
-    @classmethod
-    def from_orm(cls, user: User) -> "PydanticUser":
-        user.id = str(user.id)
-        return cls.from_orm(user)
+
+class PydanticUser(PydanticUserCreate):
+    id: str

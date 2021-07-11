@@ -17,6 +17,7 @@ export const AppWithContext = ({ children }) => {
 }
 
 const MyApp = ({ Component, pageProps }: any) => {
+	const getLayout = Component.getLayout || ((page) => page)
 	return (
 		<>
 			<Head>
@@ -24,7 +25,7 @@ const MyApp = ({ Component, pageProps }: any) => {
 				<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 			</Head>
 			<AppWithContext>
-				<Component {...pageProps} />
+				{getLayout(<Component {...pageProps} />)}
 			</AppWithContext>
 		</>
 	)

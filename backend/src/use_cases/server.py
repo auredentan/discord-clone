@@ -7,12 +7,15 @@ from src.entities.server import BaseServerRole  # type: ignore[attr-defined]
 from src.entities.server import PydanticServer  # type: ignore[attr-defined]
 
 from src.infrastructure.adapters.database.container import DBContainer
-from src.infrastructure.adapters.database.services.server import ServerService
-from src.infrastructure.adapters.database.services.server_member import (
+from src.infrastructure.adapters.database.tables.user import User
+
+from src.use_cases.services.server import ServerService
+from src.use_cases.services.server_member import (
     ServerMemberService,
 )
-from src.infrastructure.adapters.database.services.server_role import ServerRoleService
-from src.infrastructure.adapters.database.tables.user import User
+from src.use_cases.services.server_role import ServerRoleService
+
+from src.use_cases.serializers.server_serializer import server_sqlalchemy_to_pydantic
 
 
 @inject
@@ -42,5 +45,4 @@ async def create_server(
         created_server.id, [connected_user_server_member]
     )
 
-    return PydanticServer.from_orm(created_server) if created_server else None
-
+    return server_sqlalchemy_to_pydantic(created_server) if created_server else None

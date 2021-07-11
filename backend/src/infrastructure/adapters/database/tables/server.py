@@ -9,6 +9,7 @@ from sqlalchemy.sql.schema import Table
 from sqlalchemy_utils import UUIDType
 
 from src.infrastructure.adapters.database.tables.base import Auditable
+from src.infrastructure.adapters.database.tables.user import User
 
 from . import metadata
 

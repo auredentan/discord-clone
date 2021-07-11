@@ -1,9 +1,13 @@
 import Layout from 'components/Layout'
 
-export default function Index() {
+const Index = () => {
 	return (
 		<main>
 			<Layout />
 		</main>
 	)
 }
+
+Index.suppresFirstRenderFlicker = true
+
+export default Index
